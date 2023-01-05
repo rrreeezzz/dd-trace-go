@@ -82,6 +82,7 @@ func (h *handlers) Send(req *request.Request) {
 func (h *handlers) Complete(req *request.Request) {
 	span, ok := tracer.SpanFromContext(req.Context())
 	if !ok {
+		log.Debug("failed to find span in req context: %#v", req.Context())
 		return
 	}
 	span.SetTag(tagAWSRetryCount, req.RetryCount)
